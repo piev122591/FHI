@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "Name": "ADMIN",
+    "Description": "Admin User Group",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  },
+  {
+    "Id": 2,
+    "Name": "Stokist",
+    "Description": "Stokist",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  },
+  {
+    "Id": 3,
+    "Name": "Marketing",
+    "Description": "Marketing",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  },
+  {
+    "Id": 4,
+    "Name": "Customer Service",
+    "Description": "Customer Service",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  },
+  {
+    "Id": 5,
+    "Name": "Warehouse Staff",
+    "Description": "Warehouse Staff",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  }
+]

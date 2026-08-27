@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 1,
+    "Name": "Admin",
+    "Description": "Admin Dashboard",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  },
+  {
+    "Id": 2,
+    "Name": "Sales",
+    "Description": "Sales Dashboard",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  },
+  {
+    "Id": 3,
+    "Name": "Stokist",
+    "Description": "Stockist View",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  },
+  {
+    "Id": 4,
+    "Name": "Warehouse",
+    "Description": "Gudang",
+    "Status": "Active",
+    "CreatedDate": "2026-08-27T00:00:00",
+    "LastUpdateBy": "system",
+    "LastUpdateDate": "2026-08-27T00:00:00"
+  }
+]

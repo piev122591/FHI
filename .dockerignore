@@ -1,0 +1,16 @@
+# Never bake local secrets/data into the image — production uses DATA_DIR
+# pointed at a mounted volume, seeded fresh by Program.cs on first boot.
+**/App_Data/
+
+**/bin/
+**/obj/
+**/.vs/
+**/node_modules/
+
+.git/
+.gitignore
+.dockerignore
+*.user
+*.md
+*.htm
+logo_login.png

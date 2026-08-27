@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>FHP.Web</RootNamespace>
+    <AssemblyName>FHP.Web</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FHP.Core\FHP.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="node_modules/**" />
+    <Compile Remove="node_modules/**" />
+    <None Remove="node_modules/**" />
+  </ItemGroup>
+
+</Project>

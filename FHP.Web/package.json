@@ -1,0 +1,15 @@
+{
+  "name": "fhp-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tailwind CSS build for the FHP ASP.NET Core Razor Pages app.",
+  "scripts": {
+    "dev": "tailwindcss -i ./Content/input.css -o ./wwwroot/css/site.css --watch",
+    "build": "tailwindcss -i ./Content/input.css -o ./wwwroot/css/site.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.13",
+    "postcss": "^8.4.47",
+    "autoprefixer": "^10.4.20"
+  }
+}

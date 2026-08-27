@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="FHP.Core/FHP.Core.csproj" />
+  <Project Path="FHP.AdminSetup/FHP.AdminSetup.csproj" />
+  <Project Path="FHP.Web/FHP.Web.csproj" />
+</Solution>

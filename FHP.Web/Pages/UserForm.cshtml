@@ -1,0 +1,86 @@
+@page
+@model FHP.Web.Pages.UserFormModel
+<div class="mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">@Model.Heading</h1>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        @Model.ErrorMessage
+    </div>
+}
+
+<div class="max-w-2xl rounded-xl bg-white p-6 shadow-sm">
+    <form method="post" asp-page="/UserForm">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Mode" />
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+                <label asp-for="FullName" class="mb-1 block text-sm font-medium text-slate-700">Full Name</label>
+                <input asp-for="FullName" disabled="@Model.IsViewMode" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:bg-slate-100" />
+                <span asp-validation-for="FullName" class="mt-1 block text-xs text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="Username" class="mb-1 block text-sm font-medium text-slate-700">Username</label>
+                <input asp-for="Username" disabled="@Model.IsViewMode" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:bg-slate-100" />
+                <span asp-validation-for="Username" class="mt-1 block text-xs text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="Email" class="mb-1 block text-sm font-medium text-slate-700">Email</label>
+                <input asp-for="Email" disabled="@Model.IsViewMode" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:bg-slate-100" />
+                <span asp-validation-for="Email" class="mt-1 block text-xs text-red-600"></span>
+            </div>
+
+            @if (!Model.IsViewMode)
+            {
+                <div>
+                    <label asp-for="Password" class="mb-1 block text-sm font-medium text-slate-700">Password</label>
+                    <input asp-for="Password" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500" />
+                    @if (Model.IsAddMode)
+                    {
+                        <span class="mt-1 block text-xs text-slate-500"></span>
+                    }
+                    else
+                    {
+                        <span class="mt-1 block text-xs text-slate-500">Leave blank to keep the current password.</span>
+                    }
+                    <span asp-validation-for="Password" class="mt-1 block text-xs text-red-600"></span>
+                </div>
+
+                <div>
+                    <label asp-for="ConfirmPassword" class="mb-1 block text-sm font-medium text-slate-700">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500" />
+                    <span asp-validation-for="ConfirmPassword" class="mt-1 block text-xs text-red-600"></span>
+                </div>
+            }
+
+            <div>
+                <label asp-for="Role" class="mb-1 block text-sm font-medium text-slate-700">Role</label>
+                <select asp-for="Role" disabled="@Model.IsViewMode" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:bg-slate-100">
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                </select>
+            </div>
+
+            <div>
+                <label asp-for="Status" class="mb-1 block text-sm font-medium text-slate-700">Status</label>
+                <select asp-for="Status" disabled="@Model.IsViewMode" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:bg-slate-100">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-6 flex gap-3">
+            @if (!Model.IsViewMode)
+            {
+                <button type="submit" class="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Save</button>
+            }
+            <a asp-page="/Users" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">Back to Users</a>
+        </div>
+    </form>
+</div>

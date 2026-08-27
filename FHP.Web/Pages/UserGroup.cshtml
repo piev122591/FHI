@@ -1,0 +1,175 @@
+@page
+@model FHP.Web.Pages.UserGroupModel
+@{
+    Func<string, string> initial = name => string.IsNullOrWhiteSpace(name) ? "?" : char.ToUpperInvariant(name.Trim()[0]).ToString();
+    Func<string, string> statusPillClass = status =>
+        string.Equals(status, "Active", StringComparison.OrdinalIgnoreCase)
+            ? "inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20"
+            : "inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700 ring-1 ring-inset ring-rose-600/20";
+    Func<string, string> statusDotClass = status =>
+        string.Equals(status, "Active", StringComparison.OrdinalIgnoreCase)
+            ? "h-1.5 w-1.5 rounded-full bg-emerald-500"
+            : "h-1.5 w-1.5 rounded-full bg-rose-500";
+}
+<div class="mx-auto max-w-7xl">
+    <div class="mb-6 flex items-center gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-emerald-600 text-white shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" /></svg>
+        </div>
+        <div>
+            <h1 class="text-xl font-semibold text-slate-900">User Group</h1>
+            <p class="text-sm text-slate-500">Manage the department groups assigned to login users.</p>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="mb-4 flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 shrink-0 text-emerald-500"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" /></svg>
+            @Model.Message
+        </div>
+    }
+
+    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <form method="get" asp-page="/UserGroup">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div>
+                    <label asp-for="Name" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">User Group</label>
+                    <input asp-for="Name" placeholder="Search by group name" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 transition focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                </div>
+
+                <div>
+                    <label asp-for="Description" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Description</label>
+                    <input asp-for="Description" placeholder="Search by description" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 transition focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                </div>
+
+                <div>
+                    <label asp-for="Status" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Status</label>
+                    <div class="relative">
+                        <select asp-for="Status" class="w-full appearance-none rounded-lg border border-slate-300 bg-white px-3 py-2.5 pr-9 text-sm text-slate-800 transition focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100">
+                            <option value="@FHP.Core.Models.UserStatuses.Active">Active</option>
+                            <option value="@FHP.Core.Models.UserStatuses.Inactive">Inactive</option>
+                        </select>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-end">
+                <a asp-page="/UserGroupForm" class="inline-flex items-center justify-center gap-1.5 rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-rose-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    Add New
+                </a>
+                <button type="submit" class="inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" /></svg>
+                    Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-6">
+        <div class="mb-3 flex items-center justify-between">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Result</h2>
+            <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">@Model.Results.Count record@(Model.Results.Count == 1 ? "" : "s")</span>
+        </div>
+
+        @if (Model.Results.Count == 0)
+        {
+            <div class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-10 w-10 text-slate-300"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>
+                <p class="mt-3 text-sm font-medium text-slate-600">No user groups found</p>
+                <p class="mt-1 text-xs text-slate-400">Try adjusting your search filters, or add a new group.</p>
+            </div>
+        }
+        else
+        {
+            <!-- Desktop / tablet table -->
+            <div class="hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:block">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-100 text-sm">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Group</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Status</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Last Updated</th>
+                                <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var group in Model.Results)
+                            {
+                                <tr class="transition hover:bg-slate-50">
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-sm font-semibold text-teal-700">
+                                                @initial(group.Name)
+                                            </div>
+                                            <div class="min-w-0">
+                                                <div class="truncate font-medium text-slate-800">@group.Name</div>
+                                                <div class="truncate text-xs text-slate-400">@group.Description</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <span class="@statusPillClass(group.Status)">
+                                            <span class="@statusDotClass(group.Status)"></span>
+                                            @group.Status
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div class="text-slate-600">@group.LastUpdateBy</div>
+                                        <div class="text-xs text-slate-400">@group.LastUpdateDate.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <a asp-page="/UserGroupForm" asp-route-id="@group.Id" asp-route-mode="view" class="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-teal-700 transition hover:bg-teal-50">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mobile cards -->
+            <div class="grid grid-cols-1 gap-3 md:hidden">
+                @foreach (var group in Model.Results)
+                {
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="flex min-w-0 items-center gap-3">
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-sm font-semibold text-teal-700">
+                                    @initial(group.Name)
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="truncate font-medium text-slate-800">@group.Name</div>
+                                    <div class="truncate text-xs text-slate-400">@group.Description</div>
+                                </div>
+                            </div>
+                            <span class="@statusPillClass(group.Status)">
+                                <span class="@statusDotClass(group.Status)"></span>
+                                @group.Status
+                            </span>
+                        </div>
+
+                        <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                            <span>Updated by <span class="font-medium text-slate-600">@group.LastUpdateBy</span></span>
+                            <span>&middot;</span>
+                            <span>@group.LastUpdateDate.ToString("yyyy-MM-dd HH:mm")</span>
+                        </div>
+
+                        <div class="mt-3 border-t border-slate-100 pt-3">
+                            <a asp-page="/UserGroupForm" asp-route-id="@group.Id" asp-route-mode="view" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                View details
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

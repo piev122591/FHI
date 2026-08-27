@@ -1,0 +1,278 @@
+@page
+@model FHP.Web.Pages.DashboardModel
+
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-xl font-bold tracking-tight text-slate-900">Overview</h1>
+        <p class="mt-0.5 text-sm text-slate-500">Here's what's happening across your network today.</p>
+    </div>
+    <div class="relative">
+        <select class="w-full appearance-none rounded-full border border-slate-200 bg-white py-2 pl-4 pr-9 text-sm font-medium text-slate-700 shadow-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100 sm:w-48">
+            <option>Philippines</option>
+            <option>Indonesia</option>
+            <option>Malaysia</option>
+        </select>
+        <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>
+        </span>
+    </div>
+</div>
+
+@{
+    var accent = new System.Collections.Generic.Dictionary<string, (string chip, string bar, string glow, string side)>
+    {
+        ["rose"] = ("bg-rose-50 text-rose-600", "bg-rose-200", "hover:shadow-rose-100", "border-l-rose-400"),
+        ["emerald"] = ("bg-emerald-50 text-emerald-600", "bg-emerald-200", "hover:shadow-emerald-100", "border-l-emerald-400"),
+        ["blue"] = ("bg-blue-50 text-blue-600", "bg-blue-200", "hover:shadow-blue-100", "border-l-blue-400"),
+        ["amber"] = ("bg-amber-50 text-amber-600", "bg-amber-200", "hover:shadow-amber-100", "border-l-amber-400"),
+        ["pink"] = ("bg-pink-50 text-pink-600", "bg-pink-200", "hover:shadow-pink-100", "border-l-pink-400"),
+        ["orange"] = ("bg-orange-50 text-orange-600", "bg-orange-200", "hover:shadow-orange-100", "border-l-orange-400"),
+        ["sky"] = ("bg-sky-50 text-sky-600", "bg-sky-200", "hover:shadow-sky-100", "border-l-sky-400"),
+        ["teal"] = ("bg-teal-50 text-teal-600", "bg-teal-200", "hover:shadow-teal-100", "border-l-teal-400"),
+    };
+
+    var iconPathByKey = new System.Collections.Generic.Dictionary<string, string>
+    {
+        ["peopleGroup"] = "<path d=\"M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z\" />",
+        ["personPlus"] = "<path d=\"M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3 19.235c0-1.207.727-2.29 1.822-2.727C6.16 15.945 8.026 15.375 10 15.375c.75 0 1.484.058 2.196.169a.75.75 0 01-.234 1.481A11.4 11.4 0 0010 16.875c-1.784 0-3.474.323-4.884.988a1.5 1.5 0 00-.866 1.372v.203c0 .621.504 1.125 1.125 1.125h6.35a.75.75 0 010 1.5H5.625A2.625 2.625 0 013 19.688v-.453zM19.25 11.125a.75.75 0 00-1.5 0v2.25h-2.25a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25h2.25a.75.75 0 000-1.5h-2.25v-2.25z\" />",
+        ["briefcase"] = "<path fill-rule=\"evenodd\" d=\"M7.5 5.25a3 3 0 013-3h3a3 3 0 013 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0112 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.699 2.476-2.917A48.814 48.814 0 017.5 5.455V5.25zm7.5 0v.09a49.488 49.488 0 00-6 0v-.09a1.5 1.5 0 011.5-1.5h3a1.5 1.5 0 011.5 1.5zm-3 8.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75H12z\" clip-rule=\"evenodd\" /><path d=\"M3 18.4v-2.796a4.3 4.3 0 00.713.31A26.226 26.226 0 0012 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923a49.919 49.919 0 01-13.454 0C4.047 21.128 3 19.852 3 18.4z\" />",
+        ["document"] = "<path fill-rule=\"evenodd\" d=\"M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 000 1.5h9a.75.75 0 000-1.5h-9zm0 3a.75.75 0 000 1.5h5.25a.75.75 0 000-1.5H7.5z\" clip-rule=\"evenodd\" /><path d=\"M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z\" />",
+        ["checkCircle"] = "<path fill-rule=\"evenodd\" d=\"M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z\" clip-rule=\"evenodd\" />",
+    };
+
+    (string label, string value, string icon, string color, (string label, string value)[] footer)[] kpis =
+    {
+        ("Total Member", "3,477", "peopleGroup", "rose", new[] { ("Active", "3,476"), ("Inactive", "1") }),
+        ("New Join (Monthly)", "232", "personPlus", "emerald", new[] { ("Today", "15"), ("This Week", "16") }),
+        ("Total DP Sales (Monthly)", "4,910,072.00", "$", "blue", new[] { ("Today", "484,502.00"), ("This Week", "540,922.00") }),
+        ("Total Commission Wallet", "44,355.08", "$", "amber", System.Array.Empty<(string, string)>()),
+        ("Total Product Wallet", "13,227.53", "$", "pink", System.Array.Empty<(string, string)>()),
+        ("Total Register Wallet", "46,233.96", "$", "orange", System.Array.Empty<(string, string)>()),
+    };
+}
+
+<div class="mb-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    @foreach (var kpi in kpis)
+    {
+        <div class="rounded-2xl border border-l-4 border-slate-200 @accent[kpi.color].side bg-white p-5 shadow-sm transition hover:shadow-lg @accent[kpi.color].glow">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl @accent[kpi.color].chip text-base font-bold">
+                @if (kpi.icon == "$")
+                {
+                    @:$
+                }
+                else
+                {
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">@Html.Raw(iconPathByKey[kpi.icon])</svg>
+                }
+            </div>
+            <div class="mt-4 text-xs font-medium uppercase tracking-wide text-slate-400">@kpi.label</div>
+            <div class="mt-1 text-2xl font-bold tracking-tight text-slate-900">@kpi.value</div>
+            @if (kpi.footer.Length > 0)
+            {
+                <div class="mt-4 flex items-center gap-5 border-t border-slate-100 pt-3 text-xs">
+                    @foreach (var f in kpi.footer)
+                    {
+                        <div><span class="text-slate-400">@f.label</span> <span class="font-semibold text-slate-700">@f.value</span></div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@{
+    (string label, string value, string icon, string color)[] miniStats =
+    {
+        ("New Member (Today)", "0", "personPlus", "blue"),
+        ("Sales Number (Today)", "44,672", "briefcase", "amber"),
+        ("Pending Shipping", "1,708", "document", "rose"),
+        ("Completed Shipping", "40,779", "checkCircle", "emerald"),
+        ("Pending Withdrawal", "25", "document", "sky"),
+        ("Approved Withdrawal", "7,876", "checkCircle", "teal"),
+    };
+
+    int[] barHeights = { 3, 5, 4, 6, 3, 5, 4, 6, 3, 5 };
+}
+
+<div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    @foreach (var stat in miniStats)
+    {
+        <div class="rounded-2xl border border-l-4 border-slate-200 @accent[stat.color].side bg-white p-4 shadow-sm transition hover:shadow-lg @accent[stat.color].glow">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl @accent[stat.color].chip">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">@Html.Raw(iconPathByKey[stat.icon])</svg>
+                </div>
+                <div class="min-w-0">
+                    <div class="text-xs font-medium leading-tight text-slate-400">@stat.label</div>
+                    <div class="text-lg font-bold text-slate-900">@stat.value</div>
+                </div>
+            </div>
+            <div class="mt-3 flex h-8 items-end gap-1">
+                @foreach (var h in barHeights)
+                {
+                    <span class="@accent[stat.color].bar w-1.5 rounded-sm" style="height:@(h * 3)px"></span>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@{
+    (string label, decimal percent, string ringColor, string flagColor)[] bonuses =
+    {
+        ("Fast Start Bonus", 18.9m, "#22c55e", ""),
+        ("Pairing Bonus", 40.4m, "#3b82f6", ""),
+        ("Matching Bonus", 9.5m, "#f59e0b", "bg-amber-400"),
+        ("Unilevel Bonus", 23.7m, "#ef4444", ""),
+        ("Annual Rank Bonus", 0m, "#cbd5e1", ""),
+        ("Encoding Bonus", 4.2m, "#0ea5e9", "bg-sky-400"),
+    };
+}
+
+<div class="mb-6 rounded-2xl border border-t-4 border-slate-200 border-t-teal-400 bg-white shadow-sm">
+    <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+        <div class="flex items-center gap-2">
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-teal-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4"><path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 018.25-8.25.75.75 0 01.75.75v6.75H18a.75.75 0 01.75.75 8.25 8.25 0 01-16.5 0z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M12.75 3a.75.75 0 01.75-.75 8.25 8.25 0 018.25 8.25.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75V3z" clip-rule="evenodd" /></svg>
+            </div>
+            <h2 class="text-sm font-bold text-slate-800">Monthly Bonus Summary</h2>
+        </div>
+        <div class="flex items-center gap-1 text-slate-400">
+            <button type="button" class="rounded-lg p-1.5 hover:bg-slate-100 hover:text-slate-600" aria-label="Minimize">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14" /></svg>
+            </button>
+            <button type="button" class="rounded-lg p-1.5 hover:bg-slate-100 hover:text-slate-600" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-y-8 px-5 py-8 sm:grid-cols-3">
+        @foreach (var bonus in bonuses)
+        {
+            <div class="flex items-center justify-center gap-6 sm:justify-start">
+                <span class="text-sm font-medium text-slate-600">@bonus.label</span>
+                <div class="relative h-16 w-16 shrink-0 rounded-full shadow-inner" style="background:conic-gradient(@bonus.ringColor 0% @(bonus.percent)%, #e5e7eb @(bonus.percent)% 100%)">
+                    <div class="absolute inset-[5px] flex items-center justify-center rounded-full bg-white text-xs font-semibold text-slate-500">
+                        @bonus.percent.ToString("0.0")%
+                    </div>
+                    @if (!string.IsNullOrEmpty(bonus.flagColor))
+                    {
+                        <span class="@bonus.flagColor absolute -top-1 right-1 h-4 w-3" style="clip-path:polygon(0 0,100% 0,100% 50%,0 100%)"></span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 border-t border-slate-100 p-5 sm:grid-cols-2">
+        <div class="rounded-xl bg-teal-50/60 p-4 text-center">
+            <div class="text-xs font-medium uppercase tracking-wide text-teal-700/70">Register/Upgrade (USD)</div>
+            <div class="mt-1 text-xl font-bold text-teal-900">66,056.00</div>
+        </div>
+        <div class="rounded-xl bg-emerald-50/60 p-4 text-center">
+            <div class="text-xs font-medium uppercase tracking-wide text-emerald-700/70">Repurchase (USD)</div>
+            <div class="mt-1 text-xl font-bold text-emerald-900">2,275.00</div>
+        </div>
+    </div>
+</div>
+
+@{
+    (string location, string product, int balance)[] lowStock =
+    {
+        ("PH02", "Imuregen 45 Capsules", -108),
+        ("PHHQ", "Imuregen 45 Capsules", -213),
+        ("PH01", "Imunplus Black Currant", -10),
+        ("PH02", "Imunplus Black Currant", -241),
+        ("PHHQ", "Imunplus Black Currant", -1703),
+        ("PH02", "Imuregen Liquid 100ml", -24),
+        ("PHHQ", "Imuregen Liquid 100ml", -162),
+        ("PH02", "(PRE ORDER) Fivnol Men 5 Sachet", -8),
+        ("PHHQ", "(PRE ORDER) Fivnol Men 5 Sachet", -1),
+        ("PH01", "Imunplus Orange Lemon", -1),
+        ("PH02", "Imunplus Orange Lemon", -336),
+        ("PHHQ", "Imunplus Orange Lemon", -1572),
+        ("PH01", "ImunPlus Cola", -4),
+        ("PH02", "ImunPlus Cola", -310),
+        ("PHHQ", "ImunPlus Cola", -1263),
+        ("PH01", "Imunplus Green Tea", -2),
+        ("PH02", "Imunplus Green Tea", -142),
+        ("PHHQ", "Imunplus Green Tea", -776),
+        ("PH01", "Imunplus Tropical Fruit", -3),
+        ("PH02", "Imunplus Tropical Fruit", -98),
+        ("PHHQ", "Imunplus Tropical Fruit", -833),
+        ("PH02", "Imuregen 90 Capsules", -25),
+        ("PHHQ", "Imuregen 90 Capsules", -11),
+        ("PH01", "ImunPlus Raspberry", -2),
+        ("PH02", "ImunPlus Raspberry", -203),
+        ("PHHQ", "ImunPlus Raspberry", -1011),
+        ("PH02", "Fivanol DTM Powder", -9),
+        ("PHHQ", "Fivanol DTM Powder", -22),
+    };
+}
+
+<div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+    <div class="flex flex-col rounded-2xl border border-t-4 border-slate-200 border-t-sky-400 bg-white shadow-sm">
+        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+            <h2 class="text-sm font-bold text-slate-800">Announcement</h2>
+            <div class="flex items-center gap-1 text-slate-400">
+                <button type="button" class="rounded-lg p-1.5 hover:bg-slate-100 hover:text-slate-600" aria-label="Minimize">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14" /></svg>
+                </button>
+                <button type="button" class="rounded-lg p-1.5 hover:bg-slate-100 hover:text-slate-600" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 border-b border-slate-100 bg-slate-50/60 px-5 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+            <span>Date</span>
+            <span>Title</span>
+        </div>
+        <div class="flex flex-1 flex-col items-center justify-center gap-2 py-16 text-center">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-teal-50 text-teal-400">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c1.83.150 3.579.437 5.213.836a11.968 11.968 0 002.94 3.606.75.75 0 001.222-.848 32.16 32.16 0 01-1.157-4.593m-8.218-9.181A11.965 11.965 0 0112.06 4.06a1.001 1.001 0 011.518.9 32.06 32.06 0 01-.157 5.837m-9.181-8.218a11.965 11.965 0 00-2.94 3.606.75.75 0 00.848 1.222c.887.155 1.762.35 2.622.586" /></svg>
+            </div>
+            <p class="text-sm font-medium text-slate-500">No announcements yet</p>
+            <p class="text-xs text-slate-400">New updates will appear here.</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col overflow-hidden rounded-2xl border border-t-4 border-slate-200 border-t-rose-400 bg-white shadow-sm">
+        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+            <h2 class="text-sm font-bold text-slate-800">Low Stock Reminder</h2>
+            <div class="flex items-center gap-1 text-slate-400">
+                <button type="button" class="rounded-lg p-1.5 hover:bg-slate-100 hover:text-slate-600" aria-label="Minimize">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14" /></svg>
+                </button>
+                <button type="button" class="rounded-lg p-1.5 hover:bg-slate-100 hover:text-slate-600" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        </div>
+        <div class="max-h-[420px] overflow-x-auto overflow-y-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="sticky top-0">
+                    <tr class="border-b border-slate-200 bg-white/95 text-xs font-semibold uppercase tracking-wide text-slate-400 backdrop-blur">
+                        <th class="whitespace-nowrap px-5 py-3">Location Code</th>
+                        <th class="whitespace-nowrap px-5 py-3">Product</th>
+                        <th class="whitespace-nowrap px-5 py-3">Current Balance</th>
+                        <th class="whitespace-nowrap px-5 py-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach (var item in lowStock)
+                    {
+                        <tr class="transition hover:bg-slate-50">
+                            <td class="whitespace-nowrap px-5 py-3 font-medium text-slate-700">@item.location</td>
+                            <td class="whitespace-nowrap px-5 py-3 text-slate-600">@item.product</td>
+                            <td class="whitespace-nowrap px-5 py-3 font-semibold text-rose-600">@item.balance</td>
+                            <td class="whitespace-nowrap px-5 py-3">
+                                <span class="inline-flex items-center rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-600 ring-1 ring-inset ring-rose-200">Sold Out</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

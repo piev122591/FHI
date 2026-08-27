@@ -1,0 +1,13 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+*.user
+.vs/
+
+# Node / Tailwind
+node_modules/
+FHP.Web/wwwroot/css/site.css
+
+# Local data (contains real user records once the app is used)
+FHP.Web/App_Data/users.json
+FHP.Web/App_Data/keys/

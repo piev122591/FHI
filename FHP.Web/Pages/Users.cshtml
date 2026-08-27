@@ -1,0 +1,88 @@
+@page
+@model FHP.Web.Pages.UsersModel
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <h1 class="text-2xl font-semibold text-slate-800">Users</h1>
+    <a asp-page="/UserForm" class="inline-flex items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">+ Add User</a>
+</div>
+
+<form method="get" asp-page="/Users" class="mb-4 flex flex-col gap-3 rounded-xl bg-white p-4 shadow-sm sm:flex-row sm:items-end">
+    <div class="flex-1">
+        <label class="mb-1 block text-xs font-medium text-slate-500">Search</label>
+        <input asp-for="Search" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500" placeholder="Name, username or email" />
+    </div>
+    <div>
+        <label class="mb-1 block text-xs font-medium text-slate-500">Role</label>
+        <select asp-for="RoleFilter" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+            <option value="">All Roles</option>
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+        </select>
+    </div>
+    <div>
+        <label class="mb-1 block text-xs font-medium text-slate-500">Status</label>
+        <select asp-for="StatusFilter" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+    <button type="submit" class="rounded-md border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200">Filter</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="mb-4 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+        @Model.Message
+    </div>
+}
+
+<div class="overflow-x-auto rounded-xl bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50">
+            <tr>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">ID</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">Full Name</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">Username</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">Email</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">Role</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">Status</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">Created Date</th>
+                <th class="px-4 py-3 text-left font-medium text-slate-500">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Users.Count == 0)
+            {
+                <tr>
+                    <td colspan="8" class="px-4 py-6 text-center text-slate-500">No users found.</td>
+                </tr>
+            }
+            @foreach (var user in Model.Users)
+            {
+                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <td class="px-4 py-3 text-slate-500">@user.Id</td>
+                    <td class="px-4 py-3 font-medium text-slate-800">@user.FullName</td>
+                    <td class="px-4 py-3 text-slate-600">@user.Username</td>
+                    <td class="px-4 py-3 text-slate-600">@user.Email</td>
+                    <td class="px-4 py-3 text-slate-600">@user.Role</td>
+                    <td class="px-4 py-3">
+                        <span class="@(user.Status == "Active" ? "rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700" : "rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-700")">
+                            @user.Status
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-slate-500">@user.CreatedDate.ToString("yyyy-MM-dd")</td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <a asp-page="/UserForm" asp-route-id="@user.Id" asp-route-mode="view" class="mr-3 text-slate-600 hover:underline">View</a>
+                        <a asp-page="/UserForm" asp-route-id="@user.Id" class="mr-3 text-slate-900 hover:underline">Edit</a>
+                        <form method="post" asp-page="/Users" asp-page-handler="Delete" asp-route-id="@user.Id" class="delete-form inline" data-username="@user.Username">
+                            <input type="hidden" name="Search" value="@Model.Search" />
+                            <input type="hidden" name="RoleFilter" value="@Model.RoleFilter" />
+                            <input type="hidden" name="StatusFilter" value="@Model.StatusFilter" />
+                            <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
