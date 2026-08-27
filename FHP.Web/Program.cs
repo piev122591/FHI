@@ -63,10 +63,16 @@ if (!app.Environment.IsDevelopment())
 // Railway (and most PaaS hosts) terminate TLS at the edge and forward plain HTTP
 // to the container, so trust their X-Forwarded-* headers instead of redirecting
 // every request — otherwise UseHttpsRedirection sees "http" and loops forever.
-app.UseForwardedHeaders(new ForwardedHeadersOptions
+// KnownNetworks/KnownProxies default to loopback-only, which Railway's edge isn't,
+// so the headers would otherwise be silently ignored — clear them since the
+// container isn't reachable except through that one trusted hop.
+var forwardedHeadersOptions = new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-});
+};
+forwardedHeadersOptions.KnownNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
